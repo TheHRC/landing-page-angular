@@ -1,0 +1,16 @@
+<h3>World News</h3>
+<div class="list-group">
+    <ul>
+        <li *ngFor='let article of articles' class="list-group-item d-flex justify-content-between align-items-center">
+            <img [src]="article.urlToImage" class="img-fluid imgSize" alt="No image">
+            <a target="_blank" class="list-group-item list-group-item-action" [href]='article.url'>
+                {{article.title | trimOutletName: article.source.name}}
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<div *ngIf='this.numberOfpages !== undefined'>
+    <app-paginator (pageNumberEmitter)="onClick($event)" [numberOfPages]="numberOfpages"></app-paginator>
+</div>

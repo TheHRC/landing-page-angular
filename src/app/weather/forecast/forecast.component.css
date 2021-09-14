@@ -1,0 +1,23 @@
+:host{
+    position: fixed;
+    left: 0;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    font-size: 12px;
+    z-index: 20;
+}
+
+.temp, .day{
+    margin:0;
+    text-align: center;
+}
+
+.temp{
+    font-weight: bold;
+}
+
+.day{
+    font-style: italic;
+}

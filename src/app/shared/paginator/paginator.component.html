@@ -1,0 +1,14 @@
+<nav>
+    <ul class="pagination">
+        <!-- <li class="page-item" [ngClass]="{disabled: currentPage === 0 }">
+            <a (click)="currentPage = currentPage - 1" class="page-link">Prev</a>
+        </li> -->
+        <li class="page-item" [ngClass]="page === currentPage ? 'active': ''"
+            *ngFor="let page of pageOptions; let i = index;">
+            <a (click)="onClick(page)" class="page-link">{{ page}}</a>
+        </li>
+        <!-- <li class="page-item" [ngClass]="{disabled: currentPage === pageOptions.length - 1 }">
+            <a (click)="currentPage = currentPage + 1" class="page-link">Next</a>
+        </li> -->
+    </ul>
+</nav>
