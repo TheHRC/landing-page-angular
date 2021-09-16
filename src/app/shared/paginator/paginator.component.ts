@@ -22,20 +22,20 @@ export class PaginatorComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.pageOptions = [
-      this.currentPage - 2,
-      this.currentPage - 1,
-      this.currentPage,
-      this.currentPage + 1,
-      this.currentPage + 2,
-    ].filter(pageNumber => pageNumber >= 1 && pageNumber <= this.numberOfPages)
+    this.addToPageOptions()
 
   }
+
 
   onClick(index: number) {
     this.currentPage = index
     this.pageNumberEmitter.emit(index)
     // console.log(index)
+    this.addToPageOptions()
+
+  }
+
+  addToPageOptions(): void {
     this.pageOptions = [
       this.currentPage - 2,
       this.currentPage - 1,
@@ -43,7 +43,6 @@ export class PaginatorComponent implements OnInit {
       this.currentPage + 1,
       this.currentPage + 2,
     ].filter(pageNumber => pageNumber >= 1 && pageNumber <= this.numberOfPages)
-
   }
 
 }

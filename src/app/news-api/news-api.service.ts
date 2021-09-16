@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { tap, map, switchMap, pluck } from 'rxjs/operators'
+import { Observable, Subject, throwError } from 'rxjs';
+import { tap, map, switchMap, pluck, catchError } from 'rxjs/operators'
 import { HttpParams, HttpClient } from '@angular/common/http';
+import { NotificationsService } from '../notifications/notifications.service';
 
 
 export interface Article {
@@ -34,7 +35,10 @@ export class NewsApiService {
   pagesOutput: Observable<Article[]>;
   numberOfPages: Subject<number>;
 
-  constructor(private http: HttpClient) {
+  private newsFetchedStatus: boolean
+
+  constructor(private http: HttpClient, private notificationService: NotificationsService) {
+    this.newsFetchedStatus = false;
     this.numberOfPages = new Subject();
     this.pagesInput = new Subject();
     this.pagesOutput = this.pagesInput.pipe(
@@ -51,6 +55,14 @@ export class NewsApiService {
       tap(response => {
         const totalPages = Math.ceil(response.totalResults / this.pageSize)
         this.numberOfPages.next(totalPages);
+        if (!this.newsFetchedStatus) {
+          this.notificationService.addSuccess(`${response.totalResults} news fetched!`);
+          this.newsFetchedStatus = true
+        }
+      }),
+      catchError((err) => {
+        this.notificationService.addError("Error while fetching news articles!")
+        return throwError(err);
       }),
       pluck('articles')
     );
